@@ -1,2 +1,2 @@
 # risha famelia
-newbie 
+abcdefghkl
