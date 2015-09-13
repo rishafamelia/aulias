@@ -29,15 +29,19 @@ snd' (x,y) = y
 
 --pembatas
 
-map' x = x
+map' f [] = []
+map' f (x:xs) = f x : map' f xs
+
 
 --pembatas
 
 filter' x = x
 
 --pembatas
-
-delete x = x
+delete' _ [] = []
+delete' n (x:xs)
+  | x == n = [] ++ xs
+  | x /= n = [x] ++ delete' n xs
 
 --pembatas
 
@@ -90,7 +94,8 @@ length' (x:xs) = 1 + length' xs
 
 --pembatas
 
-reverse' x = x
+reverse' [] = []
+reverse' (x:xs) = reverse' xs ++ [x]
 
 --pembatas
 
@@ -98,7 +103,7 @@ last' x = x
 
 --pembatas
 
-tail x = x
+tail' (x:xs) = [] ++ xs
 
 --pembatas
 
@@ -186,9 +191,10 @@ all' x = x
 any' x = x
 
 --pembatas
-
-insert' x = x
-
+insert' n [] = [n]
+insert' n (x:xs)
+  | n <= x = [n] ++ (x:xs)
+  | n > x = [x] ++ insert' n xs
 --pembatas
 
 zipWith3' x = x
