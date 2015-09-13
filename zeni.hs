@@ -129,17 +129,11 @@ intercalate' x = x
 
 --pembatas
 
-and' (True,True) = True
-and' (True,False) = False
-and' (False,True) = False
-and' (False,False) = False
+and' x = x
 
 --pembatas
 
-or' (True,True) = True
-or' (True,False) = True
-or' (False,True) = True
-or' (False,False) = False
+or' x = x
 
 --pembatas
 
