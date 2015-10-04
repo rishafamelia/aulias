@@ -35,7 +35,10 @@ map' f (x:xs) = f x : map' f xs
 
 --pembatas
 
-filter' x = x
+filter' f [] = []
+filter' f (x:xs)
+  | f x == True = [x] ++ filter' f xs
+  | f x == False = [] ++ filter' f xs
 
 --pembatas
 delete' _ [] = []
@@ -49,23 +52,30 @@ deleteAll' x = x
 
 --pembatas
 
-foldl' x = x
+foldl'' f n [] = n
+foldl'' f n (x:xs) = f x (foldl'' f n xs)
+--pembatas
+
+foldl1'' f [x] = x
+foldl1'' f (x:xs) = f x (foldl1'' f xs)
 
 --pembatas
 
-foldl1' x = x
+zip' (x:xs) [] = []
+zip' [] (a:bs) = []
+zip' (x:xs) (a:bs) = [(x,a)] : zip' xs bs
 
 --pembatas
 
-zip' x = x
+zipWith' f (x:xs) [] = []
+zipWith' f [] (a:bs) = []
+zipWith' f (x:xs) (a:bs) = [f x xs] ++ zipWith f a bs
 
 --pembatas
 
-zipWith' x = x
-
---pembatas
-
-nth' x = x
+nth' (x:xs) n
+  | n == 0 = x
+  | otherwise nth' (n-1) xs
 
 --pembatas
 
@@ -77,11 +87,17 @@ scanl1' x = x
 
 --pembatas
 
-elem' x = x
+elem' n [] = False
+elem' n (x:xs)
+  | n == x = True
+  | otherwise elem' n xs
 
 --pembatas
 
-notElem' x = x
+notElem' n [] = True
+notElem' n (x:xs)
+  | n == x = False
+  | otherwise notElem' n xs
 
 --pembatas
 
@@ -104,7 +120,7 @@ last' (x:xs) = last' xs
 
 --pembatas
 
-tail' (x:xs) = [] ++ xs
+tail' (x:xs) = xs
 
 --pembatas
 
@@ -127,8 +143,9 @@ min' a b
 concat' x = x
 
 --pembatas
-
-intersperse' x = x
+intersperse' _ [] = []
+intersperse' n [x] = [x]
+intersperse' n (x:xs) = [x] ++ [n] ++ intersperse' n xs
 
 --pembatas
 
@@ -136,15 +153,23 @@ intercalate' x = x
 
 --pembatas
 
-and' x = x
+and' [] = True
+and' (x:xs)
+  | x == False = False
+  | otherwise and' xs
+--pembatas
+
+or' [] = False
+or' (x:xs)
+  | x == True = True
+  | otherwise or' xs
 
 --pembatas
 
-or' x = x
-
---pembatas
-
-zip3' x = x
+zip3' [] _ _ = []
+zip3' _ [] _ = []
+zip3' _ _ [] = []
+zip3' (x:xs) (a:bs) (c:ds) = [(x,a,c)] : zip3' xs bs ds
 
 --pembatas
 
@@ -182,8 +207,8 @@ dropWhile' x = x
 
 --pembatas
 
-concatMap' x = x
-
+concatMap' f [] = []
+concatMap' f (x:xs) = f x ++ concatMap' f xs
 --pembatas
 
 all' x = x
@@ -199,7 +224,10 @@ insert' n (x:xs)
   | n > x = [x] ++ insert' n xs
 --pembatas
 
-zipWith3' x = x
+zipWith3' f [] _ _ = []
+zipWith3' f _ [] _ = []
+zipWith3' f _ _ [] = []
+zipWith3' f (x:xs) (a:bs) (c:ds) = [f x a c] ++ zipWith3' f xs bs ds
 
 --pembatas
 
@@ -248,5 +276,6 @@ splitAt' x = x
 partition' x = x
 
 --pembatas
-
-replicate' x = x
+replicate' n (x:xs)
+  | n > 0 = [(x:xs)] ++ replicate' (n-1) xs
+  | otherwise = []
